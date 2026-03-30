@@ -72,11 +72,7 @@ const { label = "React", icon, color, delay = 0 } = Astro.props;
     height: var(--size-diameter);
     padding: 0;
     border-radius: 50%;
-    box-shadow:
-        35px 35px 68px 0px rgba(145, 192, 255, 0.5),/* Sombra suave afuera */
-        inset -8px -8px 15px rgb(145, 193, 255),/* Oscuridad leve abajo-derecha */ 
-        inset 8px 8px 15px rgb(255, 255, 255),/* Brillo arriba-izquierda */ 
-        inset -2px -2px 5px #0e4c92;
+    
   }
   .tooltip::before,
   .tooltip::after {
@@ -98,7 +94,7 @@ const { label = "React", icon, color, delay = 0 } = Astro.props;
     z-index: 1;
     background: rgb(var(--color-background));
     box-shadow:
-      35px 35px 68px 0px rgba(145, 192, 255, 0.5),
+      8px 8px 0px rgb(0, 0, 0),
       /* Sombra suave afuera */ inset -8px -8px 15px rgb(145, 193, 255),
       /* Oscuridad leve abajo-derecha */ inset 8px 8px 15px rgb(255, 255, 255),
       /* Brillo arriba-izquierda */ inset -2px -2px 5px #0e4c92;
