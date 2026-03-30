@@ -1,0 +1,266 @@
+---
+// Props
+const { label = "React", icon, color, delay = 0 } = Astro.props;
+---
+
+<!-- From Uiverse.io by SnyDeTreves -->
+<button class="tooltip floating" style={`animation-delay: ${delay}s;`}>
+  <svg
+    class="tooltip__label"
+    viewBox="0 0 100 100"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path id="circlePath" d="M 10 50 A 40 40 0 0 1 90 50"></path>
+    <text>
+      <textPath href="#circlePath" startOffset="50%">{label}</textPath>
+    </text>
+  </svg>
+  <div class="bubble__icon" style={`--icon-color: ${color}; --icon-url: url(${icon});`}>
+    <div class="icon-mask"></div>
+    </div>
+  <svg
+    class="tooltip__content"
+    viewBox="0 0 640 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+  </svg>
+</button>
+
+<style>
+  /* From Uiverse.io by SnyDeTreves */
+.icon-mask {
+  width: 100%;
+  height: 100%;
+  /* El color lo define el background del div */
+  background-color: var(--icon-color, #000); 
+  /* La forma la define la máscara */
+  mask-image: var(--icon-url);
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  /* Prefijos para navegadores antiguos */
+  -webkit-mask-image: var(--icon-url);
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+  .tooltip {
+    --color-background: white;
+    --color-text: #fff;
+    --size-diameter: 5rem;
+    --size-shadow: 15px;
+  }
+
+  /*************/
+  /* Container */
+  /*************/
+
+  /* Container - Base */
+  .tooltip {
+    --color-background: 255, 255, 255; /* Blanco puro */
+    --size-diameter: 5rem;
+    --size-shadow: 15px; /* Sombra más suave y extendida */
+
+    /* Reset de estilos de botón */
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: var(--size-diameter);
+    height: var(--size-diameter);
+    padding: 0;
+    border-radius: 50%;
+    box-shadow:
+        35px 35px 68px 0px rgba(145, 192, 255, 0.5),/* Sombra suave afuera */
+        inset -8px -8px 15px rgb(145, 193, 255),/* Oscuridad leve abajo-derecha */ 
+        inset 8px 8px 15px rgb(255, 255, 255),/* Brillo arriba-izquierda */ 
+        inset -2px -2px 5px #0e4c92;
+  }
+  .tooltip::before,
+  .tooltip::after {
+    border-radius: inherit;
+    height: var(--size);
+    position: absolute;
+    width: var(--size);
+  }
+  /* Container - Darken */
+  /* El cuerpo de la burbuja (Claymorphism) */
+  .tooltip::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    z-index: 1;
+    background: rgb(var(--color-background));
+    box-shadow:
+      35px 35px 68px 0px rgba(145, 192, 255, 0.5),
+      /* Sombra suave afuera */ inset -8px -8px 15px rgb(145, 193, 255),
+      /* Oscuridad leve abajo-derecha */ inset 8px 8px 15px rgb(255, 255, 255),
+      /* Brillo arriba-izquierda */ inset -2px -2px 5px #0e4c92;
+
+    transition: all 0.3s ease-in-out;
+  }
+  /* Container - Darken */
+  .tooltip::after {
+    content: "";
+    position: absolute;
+    top: 15%;
+    left: 20%;
+    width: 25%;
+    height: 15%;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    z-index: 4; /* Por encima de todo */
+    filter: blur(2px);
+    transform: rotate(-15deg);
+    pointer-events: none;
+  }
+
+  /* Container - Interactions */
+  .tooltip:hover::after {
+    content: "";
+  }
+  .tooltip:active::before {
+    border: 5px solid #000;
+    box-shadow: none;
+  }
+  .tooltip:active::after {
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  /***********/
+  /* Content */
+  /***********/
+
+  /* Content - Base */
+  .tooltip__content {
+    --size: calc(0.8 * var(--size-diameter));
+    display: none;
+    border-radius: var(--size);
+    height: var(--size);
+    position: relative;
+    width: var(--size);
+    z-index: -3;
+  }
+
+  /*********/
+  /* Label */
+  /*********/
+
+  /* Label - Base */
+  .tooltip__label {
+    --size: calc(0 * var(--size-diameter));
+    background: radial-gradient(
+      circle at center,
+      transparent 45%,
+      rgb(var(--color-background)) 46%
+    );
+    border-radius: var(--size);
+    font-size: calc(0.2 * var(--size-diameter));
+    height: var(--size);
+    left: calc(50% - var(--size) / 2);
+    pointer-events: none;
+    position: absolute;
+    top: calc(50% - var(--size) / 2);
+    transition: all 0.3s linear;
+    width: var(--size);
+  }
+  /* Label - Path */
+  .tooltip__label #circlePath {
+    display: none;
+  }
+  /* Label - Text */
+  .tooltip__label text {
+    dominant-baseline: middle;
+    font-weight: 600;
+    text-anchor: middle;
+  }
+
+  /* Label - Interactions */
+  .tooltip:hover .tooltip__label {
+    --size: calc(var(--size-diameter) + 6em);
+    display: flex;
+    box-shadow: 0 0 var(--size-shadow) #000;
+  }
+
+  .bubble {
+    --size: 5rem;
+
+    position: relative;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: white;
+    box-shadow:
+      10px 10px 20px rgba(0, 0, 0, 0.1),
+      /* Sombra suave afuera */ inset -8px -8px 15px rgba(0, 0, 0, 0.05),
+      /* Oscuridad leve abajo-derecha */ inset 8px 8px 15px
+        rgba(255, 255, 255, 1),
+      /* Brillo arriba-izquierda */ inset -2px -2px 5px rgba(0, 0, 0, 0.02);
+  }
+
+  /* icon centrado */
+  .bubble__icon {
+    width: 60%;
+    height: 60%;
+    z-index: 2;
+  }
+
+  .bubble__icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    color: red
+  }
+
+  /* label oculto */
+  .bubble__label {
+    position: absolute;
+    bottom: -1.8rem;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0);
+    opacity: 0;
+    transition: all 0.2s ease;
+    pointer-events: none;
+  }
+
+  /* hover → mostrar label */
+  .bubble:hover .bubble__label {
+    opacity: 1;
+    transform: translateY(4px);
+  }
+
+  /* 🫧 animación flotante */
+  .floating {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .floating:hover,
+  .floating:active {
+    animation-play-state: paused;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-12px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+</style>
