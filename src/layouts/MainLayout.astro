@@ -22,6 +22,9 @@ interface props {
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
     <ClientRouter />
   </head>
   <body>
@@ -45,7 +48,7 @@ interface props {
       </div>
 			
       <!-- MIDDLE DESCRIPTION -->
-      <AboutMe>
+      <AboutMe title="Descripción"> 
         <p slot="description">
           Sólo soy <strong>"desarrollador"</strong> , porque no me limito al software o hardware, me encargo de <strong>crear</strong> de <strong>construir</strong> ideas que solucionen tus problemas.
           <br />
