@@ -1,9 +1,7 @@
 ---
 import { ClientRouter } from "astro:transitions";
 import "../styles/global.css";
-import BubbleField from "./BubbleField.astro";
 import AboutMe from "../components/AboutMe.astro";
-import Navbar from "../components/Navbar.astro"
 import Pic from "../components/Pic.astro";
 
 const { title } = Astro.props;
@@ -26,15 +24,13 @@ interface props {
     <ClientRouter />
   </head>
   <body>
-    <Navbar/>
-    <!-- <Background  BackgroundSketch client:idle /> -->
-    <div class="min-h-screen grid grid-rows-[60vh_40vh] gap-4 p-4">
+    <div class="min-h-screen grid grid-rows-[60vh_30vh_10vh] gap-4 p-4">
       <!-- TOP SECTION -->
       <div class="grid grid-cols-3 gap-4">
         <!-- LEFT (2/3) -->
         <div class="col-span-2 flex items-center justify-center">
           <div class="w-full h-full">
-            <BubbleField />
+            
           </div>
         </div>
 
@@ -45,18 +41,22 @@ interface props {
 					</div>
         </div>
       </div>
-			
+
       <!-- MIDDLE DESCRIPTION -->
       <AboutMe>
         <p slot="description">
-          Sólo soy <strong>"desarrollador"</strong> , porque no me limito al software o hardware, me encargo de <strong>crear</strong> de <strong>construir</strong> ideas que solucionen tus problemas.
+          Soy desarrollador y ya porque no me limito al software o hardware, yo me encargo de <strong>crear</strong> de <strong>construir</strong> ideas que solucionen tus problemas
           <br />
-          Estudié <strong>Ingeniería física</strong> con la esperanza de ser un inventor, y aquí es donde radica mi creatividad.
-					<br />
-					Contáctame, ¡seguro se me ocurre una gran idea para tu negocio!
+          estudié <strong>Ingeniería física</strong> con la esperanza de ser un inventor, y aquí es donde radica mi creatividad.
         </p>
-				
       </AboutMe>
+
+      <!-- FOOTER NAV -->
+      <div class="flex justify-center">
+        <div class="border-2 border-black px-10 py-4">
+          <slot name="footer" />
+        </div>
+      </div>
     </div>
   </body>
 </html>
