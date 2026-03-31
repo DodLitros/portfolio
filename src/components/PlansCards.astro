@@ -1,0 +1,423 @@
+---
+// PlansCard.astro
+// Props:
+//   position: "left" | "middle" | "right"  → dirección de la sombra en hover
+//   golden:   boolean                       → activa la paleta dorada tipo tiquete
+
+interface Props {
+  position?: "left" | "middle" | "right";
+  golden?:   boolean;
+  // — contenido —
+  title?:       string;
+  price?:       string;
+  description?: string;
+  buttonText?:  string;
+}
+
+const {
+  position,
+  golden,
+  title,
+  price,
+  description,
+  buttonText,
+} = Astro.props;
+
+// Clase que Astro pone en el root; el CSS la usa para los variantes
+const posClass  = `pos-${position}`;
+const goldClass = golden ? "golden" : "";
+---
+
+<div class={`card ${posClass} ${goldClass}`}>
+  <div class="card-inner">
+    <!-- FRENTE -->
+    <div class="card-front">
+      <div class="scanlines"></div>
+      <div class="noise"></div>
+
+      <div class="product-image">
+        <svg class="product-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id={`bp-${position}-${golden}`} patternUnits="userSpaceOnUse" width="8" height="8">
+              <rect width="8" height="8" fill="#fff"></rect>
+              <rect width="4" height="4" fill="#000"></rect>
+              <rect x="4" y="4" width="4" height="4" fill="#000"></rect>
+            </pattern>
+          </defs>
+          <polygon points="50,10 90,30 90,70 50,90 10,70 10,30" fill="#fff" stroke="#fff" stroke-width="3"></polygon>
+          <polygon points="50,20 80,35 80,65 50,80 20,65 20,35" fill="#000" stroke="#fff" stroke-width="2"></polygon>
+          <rect x="35" y="35" width="30" height="30" fill={`url(#bp-${position}-${golden})`}></rect>
+          <polygon points="50,25 70,40 50,55 30,40" fill="#fff"></polygon>
+          <circle cx="50" cy="45" r="8" fill="#000"></circle>
+          <rect x="46" y="41" width="8" height="8" fill="#fff"></rect>
+          <polygon points="50,60 65,70 50,75 35,70" fill="#fff"></polygon>
+        </svg>
+      </div>
+
+      <div class="card-content">
+        <div class="product-title">{title}</div>
+        <div class="product-price">{price}</div>
+        <div class="product-description">{description}</div>
+        <div class="buy-button">
+          <div>{buttonText}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DORSO -->
+    <div class="card-back">
+      <svg class="product-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="50,10 90,30 90,70 50,90 10,70 10,30" fill="#fff" stroke="#fff" stroke-width="3"></polygon>
+        <polygon points="50,20 80,35 80,65 50,80 20,65 20,35" fill="#000" stroke="#fff" stroke-width="2"></polygon>
+        <polygon points="50,25 70,40 50,55 30,40" fill="#fff"></polygon>
+        <circle cx="50" cy="45" r="8" fill="#000"></circle>
+        <rect x="46" y="41" width="8" height="8" fill="#fff"></rect>
+        <polygon points="50,60 65,70 50,75 35,70" fill="#fff"></polygon>
+      </svg>
+      <div class="added-text">{price}</div>
+      <div class="added-subtext">ADDED TO CART</div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ─── Tokens base ──────────────────────────────────────── */
+  .card {
+    --c-bg:         #ffffff;
+    --c-border:     #000000;
+    --c-ink:        #000000;
+    --c-accent:     #000000;
+    --c-btn-bg:     #000000;
+    --c-btn-hover:  #d9d4d4;
+    --c-btn-text:   #ffffff;
+    --c-back-bg:    #000000;
+    --c-scanline:   #ffffff;
+    --shadow-a:     #000;
+    --shadow-b:     #333;
+    --shadow-c:     #666;
+    --shadow-d:     #999;
+  }
+
+  /* ─── Tokens GOLDEN ────────────────────────────────────── */
+  .card.golden {
+    --c-bg:         #1a1200;        /* fondo casi negro dorado */
+    --c-border:     #c8960c;
+    --c-ink:        #ffe87a;        /* texto principal */
+    --c-accent:     #c8960c;
+    --c-btn-bg:     #c8960c;
+    --c-btn-hover:  #f5d76e;
+    --c-btn-text:   #1a1200;
+    --c-back-bg:    #0d0a00;
+    --c-scanline:   #f5d76e;
+    --shadow-a:     #c8960c;
+    --shadow-b:     #a07410;
+    --shadow-c:     #6b4e0a;
+    --shadow-d:     #3d2c04;
+  }
+
+  /* ─── Estructura base (igual que el original) ────────── */
+  .card {
+    width: 280px;
+    height: 340px;
+    background: var(--c-bg);
+    border: 4px solid var(--c-border);
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+  }
+
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transform-style: preserve-3d;
+  }
+
+  .card:active .card-inner {
+    transform: rotateY(180deg);
+  }
+
+  .card-front,
+  .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    background: var(--c-bg);
+  }
+
+  .card-back {
+    transform: rotateY(180deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: var(--c-back-bg);
+    color: var(--c-ink);
+    border: 8px solid var(--c-border);
+    box-sizing: border-box;
+  }
+
+  /* ─── Sombra en hover según position ─────────────────── */
+
+  /* RIGHT (original): diagonal derecha-abajo */
+  .card.pos-right:hover {
+    transform: rotate(-5deg) scale(1.1) skew(-2deg);
+    box-shadow:
+      10px 10px 0 var(--shadow-a),
+      20px 20px 0 var(--shadow-b),
+      30px 30px 0 var(--shadow-c),
+      40px 40px 0 var(--shadow-d);
+    border-width: 8px;
+    filter: contrast(1.3) brightness(1.1);
+  }
+
+  /* LEFT: diagonal izquierda-abajo */
+  .card.pos-left:hover {
+    transform: rotate(5deg) scale(1.1) skew(2deg);
+    box-shadow:
+      -10px 10px 0 var(--shadow-a),
+      -20px 20px 0 var(--shadow-b),
+      -30px 30px 0 var(--shadow-c),
+      -40px 40px 0 var(--shadow-d);
+    border-width: 8px;
+    filter: contrast(1.3) brightness(1.1);
+  }
+
+  /* MIDDLE: sombra puramente hacia abajo, sin rotación */
+  .card.pos-middle:hover {
+    transform: scale(1.08);
+    box-shadow:
+      0 10px 0 var(--shadow-a),
+      0 20px 0 var(--shadow-b),
+      0 30px 0 var(--shadow-c),
+      0 40px 0 var(--shadow-d);
+    border-width: 8px;
+    filter: contrast(1.3) brightness(1.1);
+  }
+
+  /* ─── Scanline ────────────────────────────────────────── */
+  .card::after {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--c-scanline) 30%, var(--c-scanline) 70%, transparent);
+    box-shadow: 0 0 8px var(--c-scanline), 0 0 16px var(--c-scanline), 0 0 24px var(--c-scanline);
+    opacity: 0.6;
+    z-index: 10;
+    animation: scanline 4s linear infinite;
+  }
+  .card:hover::after {
+    opacity: 1;
+    animation: scanline-fast 1.2s linear infinite;
+  }
+
+  /* ─── Imagen ──────────────────────────────────────────── */
+  .product-image {
+    width: 100%;
+    height: 150px;
+    background: var(--c-accent);
+    position: relative;
+    border-bottom: 8px solid var(--c-border);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Golden: franja horizontal tipo tiquete */
+  .golden .product-image {
+    background: repeating-linear-gradient(
+      0deg,
+      #1a1200 0px,
+      #1a1200 4px,
+      #2a1e00 4px,
+      #2a1e00 8px
+    );
+    border-bottom-color: #c8960c;
+  }
+
+  .product-svg {
+    width: 80px;
+    height: 80px;
+    transition: all 0.3s ease;
+  }
+
+  /* Tono dorado al SVG cuando es golden */
+  .golden .product-svg {
+    filter: sepia(1) saturate(4) hue-rotate(5deg) brightness(1.1);
+  }
+
+  .card:hover .product-svg {
+    animation: brutal-spin 0.4s ease-in-out, svg-glitch 0.6s ease-in-out;
+    transform: scale(1.2);
+  }
+
+  /* ─── Contenido ───────────────────────────────────────── */
+  .card-content {
+    padding: 16px;
+    position: relative;
+    z-index: 2;
+    background: var(--c-bg);
+    height: calc(100% - 160px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .product-title {
+    font-size: 16px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+    border-bottom: 4px solid var(--c-border);
+    padding-bottom: 2px;
+    line-height: 1.1;
+    color: var(--c-ink);
+  }
+
+  .product-price {
+    font-size: 20px;
+    font-weight: 900;
+    margin-bottom: 8px;
+    color: var(--c-ink);
+  }
+
+  .golden .product-price {
+    /* Simula brillo metálico con text-shadow */
+    text-shadow: 0 1px 2px #f5d76e88, 0 -1px 1px #7a5a0088;
+  }
+
+  .product-description {
+    font-size: 10px;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    flex-grow: 1;
+    color: var(--c-ink);
+    opacity: 0.75;
+  }
+
+  /* ─── Botón ───────────────────────────────────────────── */
+  .buy-button {
+    width: 100%;
+    padding: 10px;
+    background: var(--c-btn-bg);
+    color: var(--c-btn-text);
+    border: 4px solid var(--c-border);
+    font-family: "Helvetica", monospace;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .buy-button::before {
+    content: "BUY NOW";
+    position: absolute;
+    top: 10px;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--c-btn-hover);
+    transition: all 0.3s ease;
+    color: var(--c-btn-text);
+  }
+
+  .card:hover .buy-button::before { left: 0; }
+  .card:hover .buy-button { color: var(--c-ink); }
+
+  /* ─── Dorso ───────────────────────────────────────────── */
+  .added-text {
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    color: var(--c-ink);
+    animation: added-glitch 2s ease-out;
+  }
+
+  .added-subtext {
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.8;
+    color: var(--c-ink);
+  }
+
+  /* ─── Noise ───────────────────────────────────────────── */
+  .noise {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    opacity: 0;
+    background-image: radial-gradient(circle, var(--c-border) 1px, transparent 1px);
+    background-size: 4px 4px;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  .card:hover .noise {
+    opacity: 0.05;
+    animation: noise-move 0.1s infinite;
+  }
+
+  /* ─── Keyframes (idénticos al original) ─────────────── */
+  @keyframes scanline {
+    0%   { top: -100%; opacity: 0; }
+    3%   { opacity: 0.3; }
+    97%  { opacity: 0.3; }
+    100% { top: 100%; opacity: 0; }
+  }
+  @keyframes scanline-fast {
+    0%   { top: -100%; opacity: 0; }
+    8%   { opacity: 1; }
+    92%  { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+  }
+  @keyframes brutal-spin {
+    0%   { transform: scale(1.2) rotate(0deg); }
+    25%  { transform: scale(1.4) rotate(90deg); }
+    50%  { transform: scale(1.2) rotate(180deg); }
+    75%  { transform: scale(1.4) rotate(270deg); }
+    100% { transform: scale(1.2) rotate(360deg); }
+  }
+  @keyframes svg-glitch {
+    0%, 100% { filter: invert(0); }
+    10%       { filter: invert(1); }
+    20%       { filter: invert(0); }
+    30%       { filter: invert(1); }
+    40%       { filter: invert(0); }
+  }
+  @keyframes added-glitch {
+    0%   { transform: scale(0.8); filter: invert(0); opacity: 0; }
+    10%  { transform: scale(1.2) skew(-5deg); filter: invert(1); opacity: 1; }
+    20%  { transform: scale(0.9) skew(3deg);  filter: invert(0); }
+    30%  { transform: scale(1.1) skew(-2deg); filter: invert(1); }
+    40%  { transform: scale(1)   skew(1deg);  filter: invert(0); }
+    50%  { transform: scale(1.05) skew(0deg); filter: invert(1); }
+    70%  { transform: scale(1); filter: invert(0); }
+    100% { transform: scale(1); filter: invert(0); }
+  }
+  @keyframes noise-move {
+    0%   { transform: translate(0, 0); }
+    25%  { transform: translate(-1px, 1px); }
+    50%  { transform: translate(1px, -1px); }
+    75%  { transform: translate(-1px, -1px); }
+    100% { transform: translate(0, 0); }
+  }
+</style>
