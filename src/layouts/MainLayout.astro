@@ -1,7 +1,6 @@
 ---
 import { ClientRouter } from "astro:transitions";
 import "../styles/global.css";
-import BubbleField from "./BubbleField.astro";
 import AboutMe from "../components/AboutMe.astro";
 import Navbar from "../components/Navbar.astro"
 import Pic from "../components/Pic.astro";
@@ -27,14 +26,13 @@ interface props {
   </head>
   <body>
     <Navbar/>
-    <!-- <Background  BackgroundSketch client:idle /> -->
     <div class="min-h-screen grid grid-rows-[60vh_40vh] gap-4 p-4">
       <!-- TOP SECTION -->
       <div class="grid grid-cols-3 gap-4">
-        <!-- LEFT (2/3) -->
+        <!-- what changes -->
         <div class="col-span-2 flex items-center justify-center">
           <div class="w-full h-full">
-            <BubbleField />
+            <slot/>
           </div>
         </div>
 

@@ -1,0 +1,17 @@
+---
+import { ClientRouter } from "astro:transitions";
+import "../styles/global.css";
+import AboutMe from "../components/AboutMe.astro";
+import Navbar from "../components/Navbar.astro"
+import Pic from "../components/Pic.astro";
+import MainLayout from "../layouts/MainLayout.astro";
+
+const { title } = Astro.props;
+
+interface props {
+  title: string;
+  age?: number;
+  isActive?: boolean;
+}
+---
+<MainLayout/>

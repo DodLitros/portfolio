@@ -1,0 +1,17 @@
+---
+import "../styles/global.css";
+import BubbleField from "../components/BubbleField.astro";
+import MainLayout from "../layouts/MainLayout.astro";
+
+const { title } = Astro.props;
+
+interface props {
+  title: string;
+  age?: number;
+  isActive?: boolean;
+}
+---
+
+<MainLayout>
+  <BubbleField/>
+</MainLayout>
