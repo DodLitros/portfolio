@@ -5,21 +5,5 @@ import MainLayout from "../layouts/MainLayout.astro"
 const name = "Carlos Beltrán-Pardo"
 ---
 
-<MainLayout title="Main page">
-		<h1>my name is {name}</h1>
-		<p>Momento actual: {new Date().toLocaleTimeString()}</p>
-		<p id="current-time">Momento real: </p>
-
-		<footer>
-			{new Date().getFullYear()}
-		</footer>
-		<div class="card"></div>
-		<script>
-			const currentTime = new Date().toLocaleTimeString()
-			const currentTimeParaghraph = document.querySelector('#current-time') as HTMLParagraphElement;
-
-
-			currentTimeParaghraph.innerText = `Momento actual real: ${new Date().toLocaleTimeString()}`;
-			// const footer = document.selector as HTMLElement;
-		</script>
+<MainLayout>
 </MainLayout>
