@@ -20,7 +20,7 @@ const {
   title,
   price,
   description,
-  buttonText,
+  buttonText = "Add to cart",
 } = Astro.props;
 
 // Clase que Astro pone en el root; el CSS la usa para los variantes
@@ -335,7 +335,7 @@ const goldClass = golden ? "golden" : "";
     height: 100%;
     background: var(--c-btn-hover);
     transition: all 0.3s ease;
-    color: var(--c-btn-text);
+    color: BLACK;
   }
 
   .card:hover .buy-button::before { left: 0; }
