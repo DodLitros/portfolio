@@ -1,0 +1,489 @@
+
+  .card {
+    width: 100%;
+    max-width: 380px;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease;
+  }
+  .card.flipped {
+    transform: rotateY(180deg);
+  }
+  .face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .front {
+    
+  }
+  .back {
+    transform: rotateY(180deg);
+  }
+
+
+
+  /* INICIO card frontal */
+  img{
+    height: auto;
+    display: block;
+    object-fit:cover;
+    
+  }
+
+  .card__image-wrap {
+    width: 100%;
+    overflow: hidden;  
+    /* --- NUEVO: ESTILOS PARA ENCUADRAR LA FOTO ENTERA --- */
+    background: #FF4F00 ; /* Fondo blanco por si acaso */
+    display: flex; /* Centrado fácil */
+    justify-content: center;
+    align-items: flex-start; /* Alinea la foto arriba del todo */
+  }
+
+  .card__image-wrap img {
+    width: 100%; /* IMPORTANTE: Deja que el ancho se ajuste */
+    height: auto; 
+    bottom: 0; 
+    /* --- CAMBIO: object-fit contain --- */
+    object-fit: contain; /* Esto asegura que la foto se encoja para verse entera sin cortarse */
+    
+    /* --- CAMBIO: object-position top --- */
+    object-position: center top; /* Alinea la foto al centro horizontal y arriba del todo vertical */
+  }
+
+  .card-front {
+    width: 100%;
+    height: 100%;
+    /* padding: 30px; */
+    background: #FF4F00 ;
+    border: 8px solid #000;
+    box-shadow: 15px 15px 0 #000;
+    transform: rotate(-2deg);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-front:active {
+    animation: shake 0.5s ease-in-out;
+  }
+  .card-front:hover {
+    transform: rotate(0deg) scale(1.02);
+    box-shadow: 20px 20px 0 #000;
+  }
+  .banner {
+      z-index: 2;
+      position: absolute;
+      top: 3px;
+      right: -95px;
+      background: #000;
+      color: #fff;
+      padding: 15px;
+      width: 400px;
+      height: 50px;
+      text-align: center;
+      transform: rotate(45deg);
+      font-weight: bold;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      overflow: hidden;
+      transition: background 0.5s ease;
+      cursor: pointer;
+  }
+  .banner-text {
+    display: inline-block;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    width: 100%;
+    position: absolute;
+    left: 13%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .banner:hover .banner-text:first-child {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  .banner:hover .banner-text:last-child {
+    opacity: 1;
+    transform: translateY(-40%);
+  }
+  .banner-text:last-child {
+    opacity: 0;
+    transform: translateY(60%);
+  }
+  .banner:hover {
+    background: rgb(39, 208, 87);
+    text-shadow: 3px 3px 0 #000000;
+  }
+  .card__title {
+    font-family: "Pixelify Sans", sans-serif;
+    color: white;
+    text-transform: uppercase;
+    margin-left: 10px;
+    margin-top: 50px;
+    font-size: 1.9rem;
+    text-shadow: 3px 3px 0px var(--black);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: block;
+    border-bottom: 2px solid #000;
+    width: 50%; /* or any other percentage or pixel value */
+  }
+  @keyframes shake {
+    0% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-5px);
+    }
+    50% {
+      transform: translateX(5px);
+    }
+    75% {
+      transform: translateX(-5px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  /* FIN CARD FRONTAL */
+
+
+
+
+
+  input {
+    width: 100%; 
+    letter-spacing: 1.5px;
+    padding: 5px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #000;
+    border: 4px solid #000;
+    overflow: hidden;
+    border-radius: 0;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 5px 5px 0 #000;
+  }
+  input:focus-visible{
+    box-shadow: 0 0 0 black;
+  }
+  input::placeholder{
+        font-family: "Pixelify Sans", sans-serif;
+  }
+  .card-contact {
+    --primary: #ff3e00;
+    --primary-hover: #ff6d43;
+    --secondary: #4d61ff;
+    --secondary-hover: #5e70ff;
+    --accent: #00e0b0;
+    --text: #050505;
+    --bg: #ffffff;
+    --shadow-color: #000000;
+    --pattern-color: #cfcfcf;
+
+    position: relative;
+    width: auto;
+    background: var(--bg);
+    border: 0.35em solid var(--text);
+    box-shadow:
+      0.7em 0.7em 0 var(--shadow-color),
+      inset 0 0 0 0.15em rgba(0, 0, 0, 0.05);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    overflow: hidden;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    transform-origin: center;
+  }
+
+  .card-contact:hover {
+    transform: translate(-0.4em, -0.4em) scale(1.02);
+    box-shadow: 1em 1em 0 var(--shadow-color);
+  }
+
+  .card-contact:hover .card-pattern-grid,
+  .card-contact:hover .card-overlay-dots {
+    opacity: 1;
+  }
+
+  .card-contact:active {
+    transform: translate(0.1em, 0.1em) scale(0.98);
+    box-shadow: 0.5em 0.5em 0 var(--shadow-color);
+  }
+
+
+  .card-pattern-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    background-size: 0.5em 0.5em;
+    pointer-events: none;
+    opacity: 0.5;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+  }
+
+  .card-overlay-dots {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(
+      var(--pattern-color) 1px,
+      transparent 1px
+    );
+    background-size: 1em 1em;
+    background-position: -0.5em -0.5em;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+  }
+
+  .bold-pattern {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 6em;
+    height: 6em;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .card-title-area {
+    text-align: center;
+    position: relative;
+    padding: 10px;
+    background: var(--primary);
+    color: var(--bg);
+    font-weight: 900;
+    text-shadow: 2px 2px 10px black;
+    font-size: 2em;
+    display: flex;
+    flex-direction: column ;
+    justify-content: Center;
+    align-items: center;
+    border-bottom: 0.35em solid var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    z-index: 2;
+    overflow: hidden;
+  }
+
+  .card-title-area::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.1),
+      rgba(0, 0, 0, 0.1) 0.5em,
+      transparent 0.5em,
+      transparent 1em
+    );
+    pointer-events: none;
+    opacity: 0.3;
+  }
+
+  .card-tag {
+    background: var(--bg);
+    color: var(--text);
+    font-size: 0.6em;
+    font-weight: 800;
+    padding: 0.4em 0.8em;
+    border: 0.15em solid var(--text);
+    border-radius: 0.3em;
+    box-shadow: 0.2em 0.2em 0 var(--shadow-color);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transform: rotate(3deg);
+    transition: all 0.3s ease;
+  }
+
+  .card-contact:hover .card-tag {
+    transform: rotate(-2deg) scale(1.1);
+    box-shadow: 0.25em 0.25em 0 var(--shadow-color);
+  }
+
+  .card-body {
+    position: relative;
+    padding: 1.5em;
+    z-index: 2;
+  }
+  .message{
+    background-color: var(--secondary);
+    padding: 5px;
+    border: 3px solid black;
+    margin-bottom: 1em;
+    width: 100%;
+    font-weight: 600;
+    color: black;
+    box-shadow:
+      5px 5px 0 var(--shadow-color)
+  }
+  .message:focus-visible{
+    box-shadow: 0 0 0 black;
+    font-weight: 600;
+    background-color: white;
+    outline: #000000;
+  }
+  .message::placeholder{
+    font-family: "Pixelify Sans", sans-serif;
+    color: rgb(255, 255, 255);
+    font-size: 1rem;
+  }
+  .feature-grid {
+    display: flex;
+    gap: .5em;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    transition: transform 0.2s ease;
+  }
+
+  .feature-item:hover {
+    transform: translateX(0.3em);
+  }
+
+  .feature-icon {
+    width: 1em;
+    height: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--secondary);
+    border: 0.12em solid var(--text);
+    border-radius: 0.3em;
+    box-shadow: 0.2em 0.2em 0 rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+  }
+
+  .feature-item:hover .feature-icon {
+    background: var(--secondary-hover);
+    transform: rotate(-5deg);
+  }
+
+  .feature-icon svg {
+    width: 0.9em;
+    height: 0.9em;
+    fill: var(--bg);
+  }
+
+  .feature-text {
+    font-size: 0.85em;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .card-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1.2em;
+    border-top: 0.15em dashed rgba(0, 0, 0, 0.15);
+    position: relative;
+  }
+
+  .card-button {
+    position: relative;
+    background: #00c2a8 ;
+    color: black;
+    font-size: 0.9em;
+    font-weight: 700;
+    padding: 0.7em 1.2em;
+    border: 0.2em solid var(--text);
+    box-shadow: 0.3em 0.3em 0 var(--shadow-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .card-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      #00c2a8 50%,
+      transparent 100%
+    );
+    transition: left 0.6s ease;
+  }
+
+  .card-button:hover {
+    background: #00c2a8 ;
+    transform: translate(-0.1em, -0.1em);
+    box-shadow: 0.4em 0.4em 0 var(--shadow-color);
+  }
+
+  .card-button:hover::before {
+    left: 100%;
+  }
+
+  .card-button:active {
+    transform: translate(0.1em, 0.1em);
+    box-shadow: 0.15em 0.15em 0 var(--shadow-color);
+  }
+
+  .dots-pattern {
+    position: absolute;
+    bottom: 2em;
+    left: -2em;
+    width: 8em;
+    height: 4em;
+    opacity: 0.3;
+    transform: rotate(-10deg);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .accent-shape {
+    position: absolute;
+    width: 2.5em;
+    height: 2.5em;
+    background: var(--secondary);
+    border: 0.15em solid var(--text);
+    border-radius: 0.3em;
+    transform: rotate(45deg);
+    bottom: -1.2em;
+    right: 2em;
+    z-index: 0;
+    transition: transform 0.3s ease;
+  }
+
+  .card-contact:hover .accent-shape {
+    transform: rotate(55deg) scale(1.1);
+  }
+
+  .corner-slice {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background: var(--bg);
+    border-right: 0.25em solid var(--text);
+    border-top: 0.25em solid var(--text);
+    border-radius: 0 0.5em 0 0;
+    z-index: 1;
+  }
