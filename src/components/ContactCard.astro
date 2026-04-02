@@ -2,7 +2,7 @@
 
 ---
 
-<div class="card">
+<div class="card-contact">
   <div class="card-pattern-grid"></div>
   <div class="card-overlay-dots"></div>
 
@@ -86,7 +86,7 @@
   input::placeholder{
         font-family: "Pixelify Sans", sans-serif;
   }
-  .card {
+  .card-contact {
     --primary: #ff3e00;
     --primary-hover: #ff6d43;
     --secondary: #4d61ff;
@@ -98,7 +98,7 @@
     --pattern-color: #cfcfcf;
 
     position: relative;
-    width: 20em;
+    width: auto;
     background: var(--bg);
     border: 0.35em solid var(--text);
     box-shadow:
@@ -110,17 +110,17 @@
     transform-origin: center;
   }
 
-  .card:hover {
+  .card-contact:hover {
     transform: translate(-0.4em, -0.4em) scale(1.02);
     box-shadow: 1em 1em 0 var(--shadow-color);
   }
 
-  .card:hover .card-pattern-grid,
-  .card:hover .card-overlay-dots {
+  .card-contact:hover .card-pattern-grid,
+  .card-contact:hover .card-overlay-dots {
     opacity: 1;
   }
 
-  .card:active {
+  .card-contact:active {
     transform: translate(0.1em, 0.1em) scale(0.98);
     box-shadow: 0.5em 0.5em 0 var(--shadow-color);
   }
@@ -218,7 +218,7 @@
     transition: all 0.3s ease;
   }
 
-  .card:hover .card-tag {
+  .card-contact:hover .card-tag {
     transform: rotate(-2deg) scale(1.1);
     box-shadow: 0.25em 0.25em 0 var(--shadow-color);
   }
@@ -379,7 +379,7 @@
     transition: transform 0.3s ease;
   }
 
-  .card:hover .accent-shape {
+  .card-contact:hover .accent-shape {
     transform: rotate(55deg) scale(1.1);
   }
 
@@ -395,4 +395,4 @@
     border-radius: 0 0.5em 0 0;
     z-index: 1;
   }
-</style>
+</style> 
