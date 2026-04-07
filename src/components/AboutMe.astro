@@ -9,10 +9,10 @@ const { title = "Carlos Beltran" } = Astro.props;
 
 <div class="main-layout">      
       <div class="header-box">
-        <h2 class="title">{title}</h2>
+        <h2 class="title" id="about-title">{title}</h2>
       </div>
       <div class="description-area bento-box grey-bg">
-        <div class="inner-text">
+        <div class="inner-text" id="about-description">
             <slot name="description" />
         </div>
       </div>
