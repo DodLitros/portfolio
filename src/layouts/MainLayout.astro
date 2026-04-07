@@ -4,6 +4,7 @@ import "../styles/global.css";
 import AboutMe from "../components/AboutMe.astro";
 import Navbar from "../components/Navbar.astro";
 import Pic from "../components/Pic.astro";
+import SpeedInsights from "@vercel/speed-insights/astro";
 
 const { title } = Astro.props;
 
@@ -64,6 +65,7 @@ interface props {
       </AboutMe>
     </div>
         <Navbar />
+    <SpeedInsights />
     <script is:inline>
       // 1. Guardamos el texto inicial para cuando el mouse salga
       const defaultState = {
