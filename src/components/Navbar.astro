@@ -6,17 +6,17 @@
 
 <nav class="bottom-nav" id="bottom-nav">
   <div class="nav-inner">
+    <a href="/experiencia" class="nav-item c3" data-label="Experiencia"
+      ><span>Experiencia</span>
+    </a>
     <a href="/proyectos" class="nav-item c1" data-label="Proyectos">
       <span>Proyectos</span>
     </a>
-    <a href="/experiencia" class="nav-item c2" data-label="Experiencia"
-      ><span>Experiencia</span></a
-    >
-    <a href="/planes" class="nav-item c3" data-label="Planes">
-      <span>Planes</span>
-    </a>
     <a href="/skills" class="nav-item c4" data-label="Skills">
       <span>Skills</span>
+    </a>
+    <a href="/planes" class="nav-item c2" data-label="Planes">
+      <span>Planes</span>
     </a>
     <!-- <a href="/contactame" class="nav-item c5" data-label="Contáctame"
       ><span>Contáctame</span>
@@ -170,65 +170,3 @@
     }
   }
 </style>
-
-<script>
-  const nav = document.getElementById("bottom-nav")!;
-  let lastY = window.scrollY;
-  let ticking = false;
-
-  window.addEventListener(
-    "scroll",
-    () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const y = window.scrollY;
-          if (y > lastY && y > 60) nav.classList.add("hidden");
-          else nav.classList.remove("hidden");
-          lastY = y;
-          ticking = false;
-        });
-        ticking = true;
-      }
-    },
-    { passive: true },
-  );
-
-  document.querySelectorAll<HTMLAnchorElement>(".nav-item").forEach((link) => {
-    link.addEventListener("click", (e) => {
-      const href = link.getAttribute("href");
-      if (!href?.startsWith("#")) return;
-      const target = document.querySelector(href);
-      if (!target) return;
-      e.preventDefault();
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  });
-
-  const links = document.querySelectorAll<HTMLAnchorElement>(".nav-item");
-  const ids = [
-    "#proyectos",
-    "#experiencia",
-    "#planes",
-    "#skills",
-    "#contactame",
-  ];
-  const secs = ids
-    .map((id) => document.querySelector(id))
-    .filter(Boolean) as Element[];
-
-  const obs = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const id = "#" + entry.target.id;
-          links.forEach((l) =>
-            l.classList.toggle("active", l.getAttribute("href") === id),
-          );
-        }
-      });
-    },
-    { rootMargin: "0px 0px -55% 0px", threshold: 0 },
-  );
-
-  secs.forEach((s) => obs.observe(s));
-</script>

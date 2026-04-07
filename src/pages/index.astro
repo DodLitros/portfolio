@@ -1,9 +1,53 @@
 ---
-import Navbar from "../components/Navbar.astro"
-import MainLayout from "../layouts/MainLayout.astro"
+import { ClientRouter } from "astro:transitions";
+import "../styles/global.css";
+import AboutMe from "../components/AboutMe.astro";
+import Navbar from "../components/Navbar.astro";
+import Pic from "../components/Pic.astro";
 
-const name = "Carlos Beltrán-Pardo"
+const { title } = Astro.props;
+
+interface props {
+  title: string;
+  age?: number;
+  isActive?: boolean;
+}
 ---
 
-<MainLayout>
-</MainLayout>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- <ClientRouter /> no se puede -->
+  </head>
+  <body>
+    <div class="grid justify-items-center grid-rows-[60vh_40vh] gap-4 p-4">
+      <Pic />
+
+      <AboutMe title="Carlos Beltrán">
+        <p slot="description">
+          Sólo soy <strong>"desarrollador"</strong> , porque no me limito al software
+          o hardware, me encargo de <strong>crear</strong>, de <strong
+            >construir</strong
+          > ideas que solucionen tus problemas.
+          <br />
+          Estudié <strong>Ingeniería física</strong> con la esperanza de ser un inventor,
+          y aquí es donde radica mi creatividad.
+          <br />
+          Contáctame, ¡seguro se me ocurre una gran idea para tu negocio!
+        </p>
+      </AboutMe>
+      <Navbar />
+    </div>
+  </body>
+</html>
