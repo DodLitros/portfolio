@@ -27,7 +27,7 @@
 <style>
   :root {
     --nb: #0d0d0d;
-    --bw: 3px;
+    --bw: 7px;
     --sh: 5px;
     --c1: #ffe600;
     --c2: #ff6b35;
@@ -42,10 +42,9 @@
   }
 
   .bottom-nav {
-    position: fixed;
+    position: absolute;
     bottom: 0;
-    left: 0;
-    right: 0;
+    width: 100dvw;
     z-index: 1000;
     display: flex;
     justify-content: center;
@@ -77,14 +76,14 @@
     color: var(--nb);
     font-family: "Pixelify Sans", sans-serif;
     font-weight: 700;
-    font-size: clamp(0.68rem, 1.2vw, 0.85rem);
+    font-size: clamp(1.5rem, 2rem, 2.1rem);
     text-transform: uppercase;
     letter-spacing: 0.04em;
     white-space: nowrap;
-    padding: 10px 18px 50px 20px;
+    padding: 10px 18px 60px 20px;
     border: var(--bw) solid var(--nb);
     border-bottom: none;
-    box-shadow: var(--sh) calc(var(--sh) * -1) 0 0 var(--nb);
+    /* box-shadow: var(--sh) calc(var(--sh) * -1) 0 0 var(--nb); */
     /* Estado base: emergiendo un poco desde abajo */
     transform: translateY(0%);
     transform-origin: bottom center;
@@ -153,13 +152,18 @@
   }
 
   @media (max-width: 600px) {
+    .bottom-nav{
+      width: 100%;
+    }
     .nav-inner {
+      width: 100%;
       gap: 4px;
       padding: 0 8px;
+      justify-content: center;
     }
     .nav-item {
       padding: 8px 10px 10px;
-      font-size: 0.62rem;
+      /* font-size: 0.62rem; */
     }
     .c5 {
       padding: 8px 12px 10px;
