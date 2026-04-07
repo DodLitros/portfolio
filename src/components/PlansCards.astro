@@ -242,7 +242,6 @@ const patternId = `bp-${position}-${golden}`;
   /* ─── Imagen ──────────────────────────────────────────── */
   .product-image {
     width: 100%;
-    height: 140px;
     background: var(--c-accent);
     border-bottom: 8px solid var(--c-border);
     display: flex;
@@ -279,14 +278,14 @@ const patternId = `bp-${position}-${golden}`;
   .card-content {
     padding: 12px 14px;
     background: var(--c-bg);
-    height: calc(100% - 148px);
+    height: calc(100% - 80px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     box-sizing: border-box;
   }
   .product-title {
-    font-size: 14px;
+    font-size: 1rem;
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -307,7 +306,7 @@ const patternId = `bp-${position}-${golden}`;
       0 -1px 1px #7a5a0088;
   }
   .product-description {
-    font-size: 9px;
+    font-size: 0.8rem;
     line-height: 1.3;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -318,6 +317,7 @@ const patternId = `bp-${position}-${golden}`;
   }
   .buy-button {
     width: 100%;
+    bottom: 0px;
     padding: 8px;
     background: var(--c-btn-bg);
     color: var(--c-btn-text);
@@ -442,6 +442,28 @@ const patternId = `bp-${position}-${golden}`;
     background: #c8960c;
     color: #1a1200;
   }
+
+   @media (max-width: 768px) {
+    .card{
+      width: 30%;
+      height: 500px;
+    }
+    .product-title{
+      font-size: 2rem;
+    }
+    .product-price{
+      font-size: 1.7rem;
+    }
+    .product-description{
+      font-size: 1.3rem;
+    }
+    .back-plan-title {
+      font-size: 2rem;
+    }
+    .back-features li{
+      font-size: 0.9rem;
+    }
+   }
 
   @keyframes scanline {
     0% {
