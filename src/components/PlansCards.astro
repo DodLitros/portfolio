@@ -55,7 +55,7 @@ const patternId = `bp-${position}-${golden}`;
       <div class="card-content">
         <div class="product-title">{title}</div>
         <div class="product-price">{price}</div>
-        <div class="product-description">{description}</div>
+        <div class="product-description"><bold>{description}</bold></div>
         <div class="buy-button">
           <div>{buttonText}</div>
         </div>
@@ -313,7 +313,7 @@ const patternId = `bp-${position}-${golden}`;
     letter-spacing: 1px;
     flex-grow: 1;
     color: var(--c-ink);
-    opacity: 0.75;
+    opacity: 0.9;
     margin-bottom: 8px;
   }
   .buy-button {
