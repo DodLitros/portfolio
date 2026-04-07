@@ -1,9 +1,45 @@
 ---
-import Navbar from "../components/Navbar.astro"
-import MainLayout from "../layouts/MainLayout.astro"
+import { ClientRouter } from "astro:transitions";
+import "../styles/global.css";
+import AboutMe from "../components/AboutMe.astro";
+import Navbar from "../components/Navbar.astro";
+import Pic from "../components/Pic.astro";
 
-const name = "Carlos Beltrán-Pardo"
+const { title } = Astro.props;
+
+interface props {
+  title: string;
+  age?: number;
+  isActive?: boolean;
+}
 ---
 
-<MainLayout>
-</MainLayout>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- <ClientRouter /> no se puede -->
+  </head>
+  <body>
+    <div class="grid justify-items-center grid-rows-[60vh_40vh] gap-4 p-4">
+      <Pic />
+
+      <AboutMe title="Carlos Beltrán">
+        <p slot="description">
+          Soy un desarrollador <strong>Fullstack</strong> enfocado en soluciones <strong>Frontend</strong>, me gusta que los diseñadores me reten a hacer una interfaz atractiva, y con buen <strong>UX/UI</strong>. Estudié ingeniería física donde aprendí múltiples lenguajes de programación, y a solucionar problemas. Mi sueño más grande siempre fue vender ideas, y el desarrollo es lo que me lo ha permitido proponer ideas que potencian el valor de los negocios tradicionales.
+        </p>
+      </AboutMe>
+      <Navbar />
+    </div>
+  </body>
+</html>

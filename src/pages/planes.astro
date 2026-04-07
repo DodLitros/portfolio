@@ -4,28 +4,62 @@ import PlansCards from "../components/PlansCards.astro";
 ---
 
 <MainLayout>
-  <div class="justify-between flex w-full">
+  <div class="justify-around flex w-full">
     <PlansCards
+      message="Hola Carlitos, estoy interesado en implementar una landing page contigo, ¿podrías brindarme más información?"
       position="left"
-      title="Quick launch"
+      golden={false}
+      title="PARA TI"
       price="1.5M-2.2M"
-      description="4-7 días hábiles"
-      buttonText="ADD TO CART"
+      description="Ideal para tu marca personal, tener presencia en internet, o añadir funcionalidades simples a tu plataforma"
+      buttonText="GET STARTED"
+      features={[
+        "1 landing page (single page)",
+        "Diseño responsive (mobile + desktop)",
+        "Integración WhatsApp o formulario de contacto",
+        "Deploy listo (Vercel o similar)",
+        "Carga rápida y optimización básica",
+        "1 ronda de ajustes incluida",
+        "Entrega en 4–6 días hábiles"
+      ]}
     />
     <PlansCards
+      message="Hola Carlitos, estoy interesado en implementar una página web para mi negocio, ¿podrías brindarme más información?"
       position="left"
-      title="Buissness Website"
+      golden={false}
+      title="PARA TU NEGOCIO"
       price="3M-4.5M"
-      description="10-14 días hábiles"
-      buttonText="ADD TO CART"
+      description="Ideal para que tu negocio esté en línea, poder vender tus negocio fácilmente en internet"
+      buttonText="GO PRO"
+      features={[
+        "3–5 páginas (Home, servicios, contacto, etc.)",
+        "Diseño UI/UX profesional y moderno",
+        "Navegación completa y estructurada",
+        "Optimización básica SEO (meta tags, estructura)",
+        "Integraciones simples (WhatsApp, formularios, calendario)",
+        "Optimización de performance",
+        "2 rondas de ajustes incluidas",
+        "Entrega en 10–14 días hábiles"
+      ]}
     />
     <PlansCards
+      message="Hola Carlitos, tengo una grandiosa idea y quiero romperla, ¿podrías brindarme más información?"
       position="left"
       golden={true}
-      title="YOUR APP"
+      title="TODO LO QUE NECESITES"
       price="5M+"
-      description="20+ días hábiles"
-      buttonText="ADD TO CART"
+      description="Acá va tu idea millonaria, idealmente para tecnificar tu negocio, y que tus clientes puedan hacer todo en tu plataforma"
+      buttonText="YOUR OWN APP"
+      features={[
+        "Todo lo del plan Para tu negocio",
+        "Más páginas o secciones personalizadas",
+        "Automatizaciones",
+        "Mayor nivel de personalización visual",
+        "Administrador en tu celular",
+        "Integraciones con AI",
+        "3 rondas de ajustes incluidas",
+        "Entrega en 14–20 días hábiles"
+      ]}
     />
   </div>
 </MainLayout>

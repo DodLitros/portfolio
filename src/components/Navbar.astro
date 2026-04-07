@@ -6,28 +6,28 @@
 
 <nav class="bottom-nav" id="bottom-nav">
   <div class="nav-inner">
+    <a href="/experiencia" class="nav-item c3" data-label="Experiencia"
+      ><span>Experiencia</span>
+    </a>
     <a href="/proyectos" class="nav-item c1" data-label="Proyectos">
       <span>Proyectos</span>
-    </a>
-    <a href="/experiencia" class="nav-item c2" data-label="Experiencia"
-      ><span>Experiencia</span></a
-    >
-    <a href="/planes" class="nav-item c3" data-label="Planes">
-      <span>Planes</span>
     </a>
     <a href="/skills" class="nav-item c4" data-label="Skills">
       <span>Skills</span>
     </a>
-    <a href="/contactame" class="nav-item c5" data-label="Contáctame"
-      ><span>Contáctame</span>
+    <a href="/planes" class="nav-item c2" data-label="Planes">
+      <span>Planes</span>
     </a>
+    <!-- <a href="/contactame" class="nav-item c5" data-label="Contáctame"
+      ><span>Contáctame</span>
+    </a> -->
   </div>
 </nav>
 
 <style>
   :root {
     --nb: #0d0d0d;
-    --bw: 3px;
+    --bw: 7px;
     --sh: 5px;
     --c1: #ffe600;
     --c2: #ff6b35;
@@ -42,10 +42,9 @@
   }
 
   .bottom-nav {
-    position: fixed;
+    position: absolute;
     bottom: 0;
-    left: 0;
-    right: 0;
+    width: 100dvw;
     z-index: 1000;
     display: flex;
     justify-content: center;
@@ -77,14 +76,14 @@
     color: var(--nb);
     font-family: "Pixelify Sans", sans-serif;
     font-weight: 700;
-    font-size: clamp(0.68rem, 1.2vw, 0.85rem);
+    font-size: clamp(1.5rem, 2rem, 2.1rem);
     text-transform: uppercase;
     letter-spacing: 0.04em;
     white-space: nowrap;
-    padding: 10px 18px 50px 20px;
+    padding: 10px 18px 60px 20px;
     border: var(--bw) solid var(--nb);
     border-bottom: none;
-    box-shadow: var(--sh) calc(var(--sh) * -1) 0 0 var(--nb);
+    /* box-shadow: var(--sh) calc(var(--sh) * -1) 0 0 var(--nb); */
     /* Estado base: emergiendo un poco desde abajo */
     transform: translateY(0%);
     transform-origin: bottom center;
@@ -153,78 +152,21 @@
   }
 
   @media (max-width: 600px) {
+    .bottom-nav{
+      width: 100%;
+    }
     .nav-inner {
+      width: 100%;
       gap: 4px;
       padding: 0 8px;
+      justify-content: center;
     }
     .nav-item {
-      padding: 8px 10px 10px;
-      font-size: 0.62rem;
+      padding: 8px 50px 10px;
+      margin: 0px 8px;
     }
     .c5 {
       padding: 8px 12px 10px;
     }
   }
 </style>
-
-<script>
-  const nav = document.getElementById("bottom-nav")!;
-  let lastY = window.scrollY;
-  let ticking = false;
-
-  window.addEventListener(
-    "scroll",
-    () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const y = window.scrollY;
-          if (y > lastY && y > 60) nav.classList.add("hidden");
-          else nav.classList.remove("hidden");
-          lastY = y;
-          ticking = false;
-        });
-        ticking = true;
-      }
-    },
-    { passive: true },
-  );
-
-  document.querySelectorAll<HTMLAnchorElement>(".nav-item").forEach((link) => {
-    link.addEventListener("click", (e) => {
-      const href = link.getAttribute("href");
-      if (!href?.startsWith("#")) return;
-      const target = document.querySelector(href);
-      if (!target) return;
-      e.preventDefault();
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  });
-
-  const links = document.querySelectorAll<HTMLAnchorElement>(".nav-item");
-  const ids = [
-    "#proyectos",
-    "#experiencia",
-    "#planes",
-    "#skills",
-    "#contactame",
-  ];
-  const secs = ids
-    .map((id) => document.querySelector(id))
-    .filter(Boolean) as Element[];
-
-  const obs = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const id = "#" + entry.target.id;
-          links.forEach((l) =>
-            l.classList.toggle("active", l.getAttribute("href") === id),
-          );
-        }
-      });
-    },
-    { rootMargin: "0px 0px -55% 0px", threshold: 0 },
-  );
-
-  secs.forEach((s) => obs.observe(s));
-</script>

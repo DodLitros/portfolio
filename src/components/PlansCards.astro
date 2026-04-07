@@ -1,63 +1,65 @@
 ---
-// PlansCard.astro
-// Props:
-//   position: "left" | "middle" | "right"  → dirección de la sombra en hover
-//   golden:   boolean                       → activa la paleta dorada tipo tiquete
-
 interface Props {
-  position?: "left" | "middle" | "right";
-  golden?:   boolean;
-  // — contenido —
+  position?:    "left" | "middle" | "right";
+  golden?:      boolean;
   title?:       string;
   price?:       string;
   description?: string;
   buttonText?:  string;
+  features?:    string[];
+  backSubtitle?: string;
+  message?: string;
 }
 
 const {
-  position,
-  golden,
-  title,
-  price,
-  description,
-  buttonText = "Add to cart",
+  position    = "middle",
+  golden      = false,
+  title       = "Plan",
+  price       = "$0",
+  description = "",
+  buttonText  = "Add to cart",
+  features    = [],
+  backSubtitle = "",
+  message        = "",
 } = Astro.props;
 
-// Clase que Astro pone en el root; el CSS la usa para los variantes
 const posClass  = `pos-${position}`;
 const goldClass = golden ? "golden" : "";
+const patternId = `bp-${position}-${golden}`;
+
+const whatsappMessage = `https://wa.me/573505484336?text=${encodeURIComponent(message)}`;
 ---
 
 <div class={`card ${posClass} ${goldClass}`}>
   <div class="card-inner">
+
     <!-- FRENTE -->
     <div class="card-front-plans">
-      <div class="scanlines"></div>
       <div class="noise"></div>
 
       <div class="product-image">
         <svg class="product-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <pattern id={`bp-${position}-${golden}`} patternUnits="userSpaceOnUse" width="8" height="8">
-              <rect width="8" height="8" fill="#fff"></rect>
-              <rect width="4" height="4" fill="#000"></rect>
-              <rect x="4" y="4" width="4" height="4" fill="#000"></rect>
+            <pattern id={patternId} patternUnits="userSpaceOnUse" width="8" height="8">
+              <rect width="8" height="8" fill="#fff" />
+              <rect width="4" height="4" fill="#000" />
+              <rect x="4" y="4" width="4" height="4" fill="#000" />
             </pattern>
           </defs>
-          <polygon points="50,10 90,30 90,70 50,90 10,70 10,30" fill="#fff" stroke="#fff" stroke-width="3"></polygon>
-          <polygon points="50,20 80,35 80,65 50,80 20,65 20,35" fill="#000" stroke="#fff" stroke-width="2"></polygon>
-          <rect x="35" y="35" width="30" height="30" fill={`url(#bp-${position}-${golden})`}></rect>
-          <polygon points="50,25 70,40 50,55 30,40" fill="#fff"></polygon>
-          <circle cx="50" cy="45" r="8" fill="#000"></circle>
-          <rect x="46" y="41" width="8" height="8" fill="#fff"></rect>
-          <polygon points="50,60 65,70 50,75 35,70" fill="#fff"></polygon>
+          <polygon points="50,10 90,30 90,70 50,90 10,70 10,30" fill="#fff" stroke="#fff" stroke-width="3" />
+          <polygon points="50,20 80,35 80,65 50,80 20,65 20,35" fill="#000" stroke="#fff" stroke-width="2" />
+          <rect x="35" y="35" width="30" height="30" fill={`url(#${patternId})`} />
+          <polygon points="50,25 70,40 50,55 30,40" fill="#fff" />
+          <circle cx="50" cy="45" r="8" fill="#000" />
+          <rect x="46" y="41" width="8" height="8" fill="#fff" />
+          <polygon points="50,60 65,70 50,75 35,70" fill="#fff" />
         </svg>
       </div>
 
       <div class="card-content">
         <div class="product-title">{title}</div>
         <div class="product-price">{price}</div>
-        <div class="product-description">{description}</div>
+        <div class="product-description"><bold>{description}</bold></div>
         <div class="buy-button">
           <div>{buttonText}</div>
         </div>
@@ -66,105 +68,125 @@ const goldClass = golden ? "golden" : "";
 
     <!-- DORSO -->
     <div class="card-back">
-      <svg class="product-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <polygon points="50,10 90,30 90,70 50,90 10,70 10,30" fill="#fff" stroke="#fff" stroke-width="3"></polygon>
-        <polygon points="50,20 80,35 80,65 50,80 20,65 20,35" fill="#000" stroke="#fff" stroke-width="2"></polygon>
-        <polygon points="50,25 70,40 50,55 30,40" fill="#fff"></polygon>
-        <circle cx="50" cy="45" r="8" fill="#000"></circle>
-        <rect x="46" y="41" width="8" height="8" fill="#fff"></rect>
-        <polygon points="50,60 65,70 50,75 35,70" fill="#fff"></polygon>
-      </svg>
-      <div class="added-text">{price}</div>
-      <div class="added-subtext">ADDED TO CART</div>
+      <div class="back-plan-title">{title}</div>
+      {backSubtitle && <div class="back-subtitle">{backSubtitle}</div>}
+      <ul class="back-features">
+        {features.map((feature) => (
+          <li>{feature}</li>
+        ))}
+      </ul>
+      <a href={whatsappMessage} target="_blank" class="back-price-badge">CONTACTAR</a>
     </div>
+
   </div>
 </div>
 
+<!-- El script usa el elemento más cercano (.card) para no colisionar entre instancias -->
+<script>
+  const cards = document.querySelectorAll<HTMLElement>(".card");
+  cards.forEach((card) => {
+    card.addEventListener("click", () => {
+      card.classList.toggle("flipped");
+    });
+    card.addEventListener("mouseleave", () => {
+      card.classList.remove("flipped");
+    });
+  });
+</script>
+
 <style>
-  /* ─── Tokens base ──────────────────────────────────────── */
-  .card {
-    --c-bg:         #ffffff;
-    --c-border:     #000000;
-    --c-ink:        #000000;
-    --c-accent:     #000000;
-    --c-btn-bg:     #000000;
-    --c-btn-hover:  #d9d4d4;
-    --c-btn-text:   #ffffff;
-    --c-back-bg:    #000000;
-    --c-scanline:   #ffffff;
-    --shadow-a:     #000;
-    --shadow-b:     #333;
-    --shadow-c:     #666;
-    --shadow-d:     #999;
+  .cards-wrapper {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    padding: 2rem 1rem 3rem;
+    flex-wrap: wrap;
   }
-
-  /* ─── Tokens GOLDEN ────────────────────────────────────── */
-  .card.golden {
-    --c-bg:         #1a1200;        /* fondo casi negro dorado */
-    --c-border:     #c8960c;
-    --c-ink:        #ffe87a;        /* texto principal */
-    --c-accent:     #c8960c;
-    --c-btn-bg:     #c8960c;
-    --c-btn-hover:  #f5d76e;
-    --c-btn-text:   #1a1200;
-    --c-back-bg:    #0d0a00;
-    --c-scanline:   #f5d76e;
-    --shadow-a:     #c8960c;
-    --shadow-b:     #a07410;
-    --shadow-c:     #6b4e0a;
-    --shadow-d:     #3d2c04;
-  }
-
-  /* ─── Estructura base (igual que el original) ────────── */
   .card {
-    width: 280px;
-    height: 340px;
-    background: var(--c-bg);
+    --c-bg: #ffffff;
+    --c-border: #000000;
+    --c-ink: #000000;
+    --c-accent: #000000;
+    --c-btn-bg: #000000;
+    --c-btn-hover: #d9d4d4;
+    --c-btn-text: #ffffff;
+    --c-back-bg: #111111;
+    --c-back-ink: #ffffff;
+    --c-scanline: #000000;
+    --shadow-a: #000;
+    --shadow-b: #333;
+    --shadow-c: #666;
+    --shadow-d: #999;
+    width: 260px;
+    height: 400px;
     border: 4px solid var(--c-border);
     position: relative;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    overflow: hidden;
+    transition:
+      transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      box-shadow 0.3s ease,
+      border-width 0.3s ease,
+      filter 0.3s ease;
     transform-style: preserve-3d;
     perspective: 1000px;
+  }
+  .card.golden {
+    --c-bg: #1a1200;
+    --c-border: #c8960c;
+    --c-ink: #ffe87a;
+    --c-accent: #c8960c;
+    --c-btn-bg: #c8960c;
+    --c-btn-hover: #f5d76e;
+    --c-btn-text: #1a1200;
+    --c-back-bg: #0d0a00;
+    --c-back-ink: #ffe87a;
+    --c-scanline: #f5d76e;
+    --shadow-a: #c8960c;
+    --shadow-b: #a07410;
+    --shadow-c: #6b4e0a;
+    --shadow-d: #3d2c04;
   }
 
   .card-inner {
     position: relative;
     width: 100%;
     height: 100%;
-    transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: transform 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     transform-style: preserve-3d;
   }
-
-  .card:active .card-inner {
+  .card.flipped .card-inner {
     transform: rotateY(180deg);
   }
 
   .card-front-plans,
   .card-back {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     backface-visibility: hidden;
-    background: var(--c-bg);
+    -webkit-backface-visibility: hidden;
+    overflow: hidden;
   }
 
+  /* FRENTE */
+  .card-front-plans {
+    background: var(--c-bg);
+    transform: rotateY(0deg);
+  }
+
+  /* DORSO — fondo propio, no hereda del frente */
   .card-back {
     transform: rotateY(180deg);
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
+    align-items: flex-start;
     background: var(--c-back-bg);
-    color: var(--c-ink);
+    color: var(--c-back-ink);
     border: 8px solid var(--c-border);
     box-sizing: border-box;
+    padding: 18px 16px;
   }
 
-  /* ─── Sombra en hover según position ─────────────────── */
-
-  /* RIGHT (original): diagonal derecha-abajo */
+  /* ─── Hover shadows ───────────────────────────────────── */
   .card.pos-right:hover {
     transform: rotate(-5deg) scale(1.1) skew(-2deg);
     box-shadow:
@@ -175,8 +197,6 @@ const goldClass = golden ? "golden" : "";
     border-width: 8px;
     filter: contrast(1.3) brightness(1.1);
   }
-
-  /* LEFT: diagonal izquierda-abajo */
   .card.pos-left:hover {
     transform: rotate(5deg) scale(1.1) skew(2deg);
     box-shadow:
@@ -187,8 +207,6 @@ const goldClass = golden ? "golden" : "";
     border-width: 8px;
     filter: contrast(1.3) brightness(1.1);
   }
-
-  /* MIDDLE: sombra puramente hacia abajo, sin rotación */
   .card.pos-middle:hover {
     transform: scale(1.08);
     box-shadow:
@@ -208,31 +226,33 @@ const goldClass = golden ? "golden" : "";
     left: 0;
     width: 100%;
     height: 2px;
-    background: linear-gradient(90deg, transparent, var(--c-scanline) 30%, var(--c-scanline) 70%, transparent);
-    box-shadow: 0 0 8px var(--c-scanline), 0 0 16px var(--c-scanline), 0 0 24px var(--c-scanline);
-    opacity: 0.6;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--c-scanline) 30%,
+      var(--c-scanline) 70%,
+      transparent
+    );
+    opacity: 0.4;
     z-index: 10;
     animation: scanline 4s linear infinite;
+    pointer-events: none;
   }
   .card:hover::after {
-    opacity: 1;
+    opacity: 0.8;
     animation: scanline-fast 1.2s linear infinite;
   }
 
   /* ─── Imagen ──────────────────────────────────────────── */
   .product-image {
     width: 100%;
-    height: 150px;
     background: var(--c-accent);
-    position: relative;
     border-bottom: 8px solid var(--c-border);
-    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
   }
-
-  /* Golden: franja horizontal tipo tiquete */
   .golden .product-image {
     background: repeating-linear-gradient(
       0deg,
@@ -243,181 +263,294 @@ const goldClass = golden ? "golden" : "";
     );
     border-bottom-color: #c8960c;
   }
-
   .product-svg {
-    width: 80px;
-    height: 80px;
-    transition: all 0.3s ease;
+    width: 72px;
+    height: 72px;
+    transition: transform 0.3s ease;
   }
-
-  /* Tono dorado al SVG cuando es golden */
   .golden .product-svg {
     filter: sepia(1) saturate(4) hue-rotate(5deg) brightness(1.1);
   }
-
   .card:hover .product-svg {
-    animation: brutal-spin 0.4s ease-in-out, svg-glitch 0.6s ease-in-out;
+    animation:
+      brutal-spin 0.4s ease-in-out,
+      svg-glitch 0.6s ease-in-out;
     transform: scale(1.2);
   }
 
-  /* ─── Contenido ───────────────────────────────────────── */
+  /* ─── Contenido frente ────────────────────────────────── */
   .card-content {
-    padding: 16px;
-    position: relative;
-    z-index: 2;
+    padding: 12px 14px;
     background: var(--c-bg);
-    height: calc(100% - 160px);
+    height: calc(100% - 80px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    box-sizing: border-box;
   }
-
   .product-title {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 2px;
-    margin-bottom: 6px;
     border-bottom: 4px solid var(--c-border);
     padding-bottom: 2px;
-    line-height: 1.1;
     color: var(--c-ink);
+    margin-bottom: 4px;
   }
-
   .product-price {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 900;
-    margin-bottom: 8px;
     color: var(--c-ink);
+    margin-bottom: 4px;
   }
-
   .golden .product-price {
-    /* Simula brillo metálico con text-shadow */
-    text-shadow: 0 1px 2px #f5d76e88, 0 -1px 1px #7a5a0088;
+    text-shadow:
+      0 1px 2px #f5d76e88,
+      0 -1px 1px #7a5a0088;
   }
-
   .product-description {
-    font-size: 10px;
-    line-height: 1.2;
+    font-size: 0.8rem;
+    line-height: 1.3;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 12px;
     flex-grow: 1;
     color: var(--c-ink);
-    opacity: 0.75;
+    opacity: 0.9;
+    margin-bottom: 8px;
   }
-
-  /* ─── Botón ───────────────────────────────────────────── */
   .buy-button {
     width: 100%;
-    padding: 10px;
+    bottom: 0px;
+    padding: 8px;
     background: var(--c-btn-bg);
     color: var(--c-btn-text);
     border: 4px solid var(--c-border);
-    font-family: "Helvetica", monospace;
     text-align: center;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 2px;
-    cursor: pointer;
-    transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
+    box-sizing: border-box;
   }
-
   .buy-button::before {
-    content: "BUY NOW";
+    content: "DETALLES";
     position: absolute;
-    top: 10px;
+    top: 8px;
     left: -100%;
     width: 100%;
     height: 100%;
     background: var(--c-btn-hover);
-    transition: all 0.3s ease;
-    color: BLACK;
+    transition: left 0.3s ease;
+    color: black;
   }
-
-  .card:hover .buy-button::before { left: 0; }
-  .card:hover .buy-button { color: var(--c-ink); }
-
-  /* ─── Dorso ───────────────────────────────────────────── */
-  .added-text {
-    font-size: 24px;
-    font-weight: 900;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    color: var(--c-ink);
-    animation: added-glitch 2s ease-out;
+  .card:hover .buy-button::before {
+    left: 0;
   }
-
-  .added-subtext {
-    font-size: 14px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    opacity: 0.8;
+  .card:hover .buy-button {
     color: var(--c-ink);
   }
 
   /* ─── Noise ───────────────────────────────────────────── */
   .noise {
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    inset: 0;
     opacity: 0;
-    background-image: radial-gradient(circle, var(--c-border) 1px, transparent 1px);
+    pointer-events: none;
+    background-image: radial-gradient(
+      circle,
+      var(--c-border) 1px,
+      transparent 1px
+    );
     background-size: 4px 4px;
     transition: opacity 0.3s ease;
-    pointer-events: none;
   }
   .card:hover .noise {
     opacity: 0.05;
     animation: noise-move 0.1s infinite;
   }
 
-  /* ─── Keyframes (idénticos al original) ─────────────── */
+  /* ─── Dorso contenido ─────────────────────────────────── */
+  .back-plan-title {
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--c-back-ink);
+    border-bottom: 3px solid var(--c-border);
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+    width: 100%;
+    border-bottom-color: #999;
+  }
+  .golden .back-plan-title {
+    border-bottom-color: #c8960c;
+  }
+  .back-subtitle {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--c-back-ink);
+    opacity: 0.6;
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+  .back-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+  }
+  .back-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    font-size: 9.5px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--c-back-ink);
+    line-height: 1.3;
+  }
+  .back-features li::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    background: var(--c-back-ink);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .golden .back-features li::before {
+    background: #c8960c;
+  }
+  .back-price-badge {
+    margin-top: 10px;
+    padding: 6px 10px;
+    background: var(--c-back-ink);
+    color: var(--c-back-bg);
+    font-size: 13px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  .golden .back-price-badge {
+    background: #c8960c;
+    color: #1a1200;
+  }
+
+   @media (max-width: 768px) {
+    .card{
+      width: 30%;
+      height: 500px;
+    }
+    .product-title{
+      font-size: 2rem;
+    }
+    .product-price{
+      font-size: 1.7rem;
+    }
+    .product-description{
+      font-size: 1.3rem;
+    }
+    .back-plan-title {
+      font-size: 2rem;
+    }
+    .back-features li{
+      font-size: 0.9rem;
+    }
+   }
+
   @keyframes scanline {
-    0%   { top: -100%; opacity: 0; }
-    3%   { opacity: 0.3; }
-    97%  { opacity: 0.3; }
-    100% { top: 100%; opacity: 0; }
+    0% {
+      top: -100%;
+      opacity: 0;
+    }
+    3% {
+      opacity: 0.3;
+    }
+    97% {
+      opacity: 0.3;
+    }
+    100% {
+      top: 100%;
+      opacity: 0;
+    }
   }
   @keyframes scanline-fast {
-    0%   { top: -100%; opacity: 0; }
-    8%   { opacity: 1; }
-    92%  { opacity: 1; }
-    100% { top: 100%; opacity: 0; }
+    0% {
+      top: -100%;
+      opacity: 0;
+    }
+    8% {
+      opacity: 1;
+    }
+    92% {
+      opacity: 1;
+    }
+    100% {
+      top: 100%;
+      opacity: 0;
+    }
   }
   @keyframes brutal-spin {
-    0%   { transform: scale(1.2) rotate(0deg); }
-    25%  { transform: scale(1.4) rotate(90deg); }
-    50%  { transform: scale(1.2) rotate(180deg); }
-    75%  { transform: scale(1.4) rotate(270deg); }
-    100% { transform: scale(1.2) rotate(360deg); }
+    0% {
+      transform: scale(1.2) rotate(0deg);
+    }
+    25% {
+      transform: scale(1.4) rotate(90deg);
+    }
+    50% {
+      transform: scale(1.2) rotate(180deg);
+    }
+    75% {
+      transform: scale(1.4) rotate(270deg);
+    }
+    100% {
+      transform: scale(1.2) rotate(360deg);
+    }
   }
   @keyframes svg-glitch {
-    0%, 100% { filter: invert(0); }
-    10%       { filter: invert(1); }
-    20%       { filter: invert(0); }
-    30%       { filter: invert(1); }
-    40%       { filter: invert(0); }
-  }
-  @keyframes added-glitch {
-    0%   { transform: scale(0.8); filter: invert(0); opacity: 0; }
-    10%  { transform: scale(1.2) skew(-5deg); filter: invert(1); opacity: 1; }
-    20%  { transform: scale(0.9) skew(3deg);  filter: invert(0); }
-    30%  { transform: scale(1.1) skew(-2deg); filter: invert(1); }
-    40%  { transform: scale(1)   skew(1deg);  filter: invert(0); }
-    50%  { transform: scale(1.05) skew(0deg); filter: invert(1); }
-    70%  { transform: scale(1); filter: invert(0); }
-    100% { transform: scale(1); filter: invert(0); }
+    0%,
+    100% {
+      filter: invert(0);
+    }
+    10% {
+      filter: invert(1);
+    }
+    20% {
+      filter: invert(0);
+    }
+    30% {
+      filter: invert(1);
+    }
+    40% {
+      filter: invert(0);
+    }
   }
   @keyframes noise-move {
-    0%   { transform: translate(0, 0); }
-    25%  { transform: translate(-1px, 1px); }
-    50%  { transform: translate(1px, -1px); }
-    75%  { transform: translate(-1px, -1px); }
-    100% { transform: translate(0, 0); }
+    0% {
+      transform: translate(0, 0);
+    }
+    25% {
+      transform: translate(-1px, 1px);
+    }
+    50% {
+      transform: translate(1px, -1px);
+    }
+    75% {
+      transform: translate(-1px, -1px);
+    }
+    100% {
+      transform: translate(0, 0);
+    }
   }
 </style>
