@@ -91,52 +91,56 @@ const patternId = `bp-${position}-${golden}`;
 </script>
 
 <style>
-  /* ─── Tokens base ──────────────────────────────────────── */
-  .card {
-    --c-bg:         #ffffff;
-    --c-border:     #000000;
-    --c-ink:        #000000;
-    --c-accent:     #000000;
-    --c-btn-bg:     #000000;
-    --c-btn-hover:  #d9d4d4;
-    --c-btn-text:   #ffffff;
-    --c-back-bg:    #000000;
-    --c-scanline:   #ffffff;
-    --shadow-a:     #000;
-    --shadow-b:     #333;
-    --shadow-c:     #666;
-    --shadow-d:     #999;
+  .cards-wrapper {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    padding: 2rem 1rem 3rem;
+    flex-wrap: wrap;
   }
-
-  /* ─── Tokens GOLDEN ────────────────────────────────────── */
-  .card.golden {
-    --c-bg:         #1a1200;
-    --c-border:     #c8960c;
-    --c-ink:        #ffe87a;
-    --c-accent:     #c8960c;
-    --c-btn-bg:     #c8960c;
-    --c-btn-hover:  #f5d76e;
-    --c-btn-text:   #1a1200;
-    --c-back-bg:    #0d0a00;
-    --c-scanline:   #f5d76e;
-    --shadow-a:     #c8960c;
-    --shadow-b:     #a07410;
-    --shadow-c:     #6b4e0a;
-    --shadow-d:     #3d2c04;
-  }
-
-  /* ─── Estructura ─────────────────────────────────────── */
   .card {
-    width: 280px;
+    --c-bg: #ffffff;
+    --c-border: #000000;
+    --c-ink: #000000;
+    --c-accent: #000000;
+    --c-btn-bg: #000000;
+    --c-btn-hover: #d9d4d4;
+    --c-btn-text: #ffffff;
+    --c-back-bg: #111111;
+    --c-back-ink: #ffffff;
+    --c-scanline: #000000;
+    --shadow-a: #000;
+    --shadow-b: #333;
+    --shadow-c: #666;
+    --shadow-d: #999;
+    width: 260px;
     height: 340px;
-    background: var(--c-bg);
     border: 4px solid var(--c-border);
     position: relative;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    overflow: visible;
+    transition:
+      transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      box-shadow 0.3s ease,
+      border-width 0.3s ease,
+      filter 0.3s ease;
     transform-style: preserve-3d;
     perspective: 1000px;
+  }
+  .card.golden {
+    --c-bg: #1a1200;
+    --c-border: #c8960c;
+    --c-ink: #ffe87a;
+    --c-accent: #c8960c;
+    --c-btn-bg: #c8960c;
+    --c-btn-hover: #f5d76e;
+    --c-btn-text: #1a1200;
+    --c-back-bg: #0d0a00;
+    --c-back-ink: #ffe87a;
+    --c-scanline: #f5d76e;
+    --shadow-a: #c8960c;
+    --shadow-b: #a07410;
+    --shadow-c: #6b4e0a;
+    --shadow-d: #3d2c04;
   }
 
   .card-inner {
@@ -146,8 +150,6 @@ const patternId = `bp-${position}-${golden}`;
     transition: transform 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     transform-style: preserve-3d;
   }
-
-  /* Flip activado por clase .flipped (toggle en click, remove en mouseleave) */
   .card.flipped .card-inner {
     transform: rotateY(180deg);
   }
@@ -155,27 +157,32 @@ const patternId = `bp-${position}-${golden}`;
   .card-front-plans,
   .card-back {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     backface-visibility: hidden;
-    background: var(--c-bg);
+    -webkit-backface-visibility: hidden;
     overflow: hidden;
   }
 
+  /* FRENTE */
+  .card-front-plans {
+    background: var(--c-bg);
+    transform: rotateY(0deg);
+  }
+
+  /* DORSO — fondo propio, no hereda del frente */
   .card-back {
     transform: rotateY(180deg);
     display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
     flex-direction: column;
+    align-items: flex-start;
     background: var(--c-back-bg);
-    color: var(--c-ink);
+    color: var(--c-back-ink);
     border: 8px solid var(--c-border);
     box-sizing: border-box;
     padding: 18px 16px;
   }
 
-  /* ─── Sombra hover según position ───────────────────── */
+  /* ─── Hover shadows ───────────────────────────────────── */
   .card.pos-right:hover {
     transform: rotate(-5deg) scale(1.1) skew(-2deg);
     box-shadow:
@@ -186,7 +193,6 @@ const patternId = `bp-${position}-${golden}`;
     border-width: 8px;
     filter: contrast(1.3) brightness(1.1);
   }
-
   .card.pos-left:hover {
     transform: rotate(5deg) scale(1.1) skew(2deg);
     box-shadow:
@@ -197,7 +203,6 @@ const patternId = `bp-${position}-${golden}`;
     border-width: 8px;
     filter: contrast(1.3) brightness(1.1);
   }
-
   .card.pos-middle:hover {
     transform: scale(1.08);
     box-shadow:
@@ -217,30 +222,34 @@ const patternId = `bp-${position}-${golden}`;
     left: 0;
     width: 100%;
     height: 2px;
-    background: linear-gradient(90deg, transparent, var(--c-scanline) 30%, var(--c-scanline) 70%, transparent);
-    box-shadow: 0 0 8px var(--c-scanline), 0 0 16px var(--c-scanline), 0 0 24px var(--c-scanline);
-    opacity: 0.6;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--c-scanline) 30%,
+      var(--c-scanline) 70%,
+      transparent
+    );
+    opacity: 0.4;
     z-index: 10;
     animation: scanline 4s linear infinite;
+    pointer-events: none;
   }
   .card:hover::after {
-    opacity: 1;
+    opacity: 0.8;
     animation: scanline-fast 1.2s linear infinite;
   }
 
   /* ─── Imagen ──────────────────────────────────────────── */
   .product-image {
     width: 100%;
-    height: 150px;
+    height: 140px;
     background: var(--c-accent);
-    position: relative;
     border-bottom: 8px solid var(--c-border);
-    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
   }
-
   .golden .product-image {
     background: repeating-linear-gradient(
       0deg,
@@ -251,129 +260,139 @@ const patternId = `bp-${position}-${golden}`;
     );
     border-bottom-color: #c8960c;
   }
-
   .product-svg {
-    width: 80px;
-    height: 80px;
-    transition: all 0.3s ease;
+    width: 72px;
+    height: 72px;
+    transition: transform 0.3s ease;
   }
-
   .golden .product-svg {
     filter: sepia(1) saturate(4) hue-rotate(5deg) brightness(1.1);
   }
-
   .card:hover .product-svg {
-    animation: brutal-spin 0.4s ease-in-out, svg-glitch 0.6s ease-in-out;
+    animation:
+      brutal-spin 0.4s ease-in-out,
+      svg-glitch 0.6s ease-in-out;
     transform: scale(1.2);
   }
 
-  /* ─── Contenido ───────────────────────────────────────── */
+  /* ─── Contenido frente ────────────────────────────────── */
   .card-content {
-    padding: 16px;
-    position: relative;
-    z-index: 2;
+    padding: 12px 14px;
     background: var(--c-bg);
-    height: calc(100% - 160px);
+    height: calc(100% - 148px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    box-sizing: border-box;
   }
-
   .product-title {
-    font-size: 16px;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 6px;
-    border-bottom: 4px solid var(--c-border);
-    padding-bottom: 2px;
-    line-height: 1.1;
-    color: var(--c-ink);
-  }
-
-  .product-price {
-    font-size: 20px;
-    font-weight: 900;
-    margin-bottom: 8px;
-    color: var(--c-ink);
-  }
-
-  .golden .product-price {
-    text-shadow: 0 1px 2px #f5d76e88, 0 -1px 1px #7a5a0088;
-  }
-
-  .product-description {
-    font-size: 10px;
-    line-height: 1.2;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 12px;
-    flex-grow: 1;
-    color: var(--c-ink);
-    opacity: 0.75;
-  }
-
-  /* ─── Botón ───────────────────────────────────────────── */
-  .buy-button {
-    width: 100%;
-    padding: 10px;
-    background: var(--c-btn-bg);
-    color: var(--c-btn-text);
-    border: 4px solid var(--c-border);
-    font-family: "Helvetica", monospace;
-    text-align: center;
     font-size: 14px;
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 2px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    border-bottom: 4px solid var(--c-border);
+    padding-bottom: 2px;
+    color: var(--c-ink);
+    margin-bottom: 4px;
+  }
+  .product-price {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--c-ink);
+    margin-bottom: 4px;
+  }
+  .golden .product-price {
+    text-shadow:
+      0 1px 2px #f5d76e88,
+      0 -1px 1px #7a5a0088;
+  }
+  .product-description {
+    font-size: 9px;
+    line-height: 1.3;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    flex-grow: 1;
+    color: var(--c-ink);
+    opacity: 0.75;
+    margin-bottom: 8px;
+  }
+  .buy-button {
+    width: 100%;
+    padding: 8px;
+    background: var(--c-btn-bg);
+    color: var(--c-btn-text);
+    border: 4px solid var(--c-border);
+    text-align: center;
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
     position: relative;
     overflow: hidden;
+    box-sizing: border-box;
   }
-
   .buy-button::before {
-    content: "BUY NOW";
+    content: "DETALLES";
     position: absolute;
-    top: 10px;
+    top: 8px;
     left: -100%;
     width: 100%;
     height: 100%;
     background: var(--c-btn-hover);
-    transition: all 0.3s ease;
+    transition: left 0.3s ease;
     color: black;
   }
+  .card:hover .buy-button::before {
+    left: 0;
+  }
+  .card:hover .buy-button {
+    color: var(--c-ink);
+  }
 
-  .card:hover .buy-button::before { left: 0; }
-  .card:hover .buy-button { color: var(--c-ink); }
+  /* ─── Noise ───────────────────────────────────────────── */
+  .noise {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    background-image: radial-gradient(
+      circle,
+      var(--c-border) 1px,
+      transparent 1px
+    );
+    background-size: 4px 4px;
+    transition: opacity 0.3s ease;
+  }
+  .card:hover .noise {
+    opacity: 0.05;
+    animation: noise-move 0.1s infinite;
+  }
 
-  /* ─── Dorso — contenido ───────────────────────────────── */
+  /* ─── Dorso contenido ─────────────────────────────────── */
   .back-plan-title {
     font-size: 11px;
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 3px;
-    color: var(--c-ink);
+    color: var(--c-back-ink);
     border-bottom: 3px solid var(--c-border);
     padding-bottom: 6px;
     margin-bottom: 10px;
     width: 100%;
+    border-bottom-color: #999;
   }
-
   .golden .back-plan-title {
     border-bottom-color: #c8960c;
   }
-
   .back-subtitle {
     font-size: 9px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: var(--c-ink);
+    color: var(--c-back-ink);
     opacity: 0.6;
     margin-bottom: 10px;
     line-height: 1.4;
   }
-
   .back-features {
     list-style: none;
     padding: 0;
@@ -384,38 +403,34 @@ const patternId = `bp-${position}-${golden}`;
     gap: 6px;
     width: 100%;
   }
-
   .back-features li {
     display: flex;
     align-items: flex-start;
     gap: 7px;
-    font-size: 10px;
+    font-size: 9.5px;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: var(--c-ink);
+    color: var(--c-back-ink);
     line-height: 1.3;
   }
-
   .back-features li::before {
-    content: '';
+    content: "";
     width: 7px;
     height: 7px;
-    background: var(--c-ink);
+    background: var(--c-back-ink);
     flex-shrink: 0;
     margin-top: 2px;
   }
-
   .golden .back-features li::before {
     background: #c8960c;
   }
-
   .back-price-badge {
     margin-top: 10px;
     padding: 6px 10px;
-    background: var(--c-ink);
+    background: var(--c-back-ink);
     color: var(--c-back-bg);
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -423,60 +438,93 @@ const patternId = `bp-${position}-${golden}`;
     box-sizing: border-box;
     text-align: center;
   }
-
   .golden .back-price-badge {
     background: #c8960c;
     color: #1a1200;
   }
 
-  /* ─── Noise ───────────────────────────────────────────── */
-  .noise {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    opacity: 0;
-    background-image: radial-gradient(circle, var(--c-border) 1px, transparent 1px);
-    background-size: 4px 4px;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-  }
-  .card:hover .noise {
-    opacity: 0.05;
-    animation: noise-move 0.1s infinite;
-  }
-
-  /* ─── Keyframes ──────────────────────────────────────── */
   @keyframes scanline {
-    0%   { top: -100%; opacity: 0; }
-    3%   { opacity: 0.3; }
-    97%  { opacity: 0.3; }
-    100% { top: 100%; opacity: 0; }
+    0% {
+      top: -100%;
+      opacity: 0;
+    }
+    3% {
+      opacity: 0.3;
+    }
+    97% {
+      opacity: 0.3;
+    }
+    100% {
+      top: 100%;
+      opacity: 0;
+    }
   }
   @keyframes scanline-fast {
-    0%   { top: -100%; opacity: 0; }
-    8%   { opacity: 1; }
-    92%  { opacity: 1; }
-    100% { top: 100%; opacity: 0; }
+    0% {
+      top: -100%;
+      opacity: 0;
+    }
+    8% {
+      opacity: 1;
+    }
+    92% {
+      opacity: 1;
+    }
+    100% {
+      top: 100%;
+      opacity: 0;
+    }
   }
   @keyframes brutal-spin {
-    0%   { transform: scale(1.2) rotate(0deg); }
-    25%  { transform: scale(1.4) rotate(90deg); }
-    50%  { transform: scale(1.2) rotate(180deg); }
-    75%  { transform: scale(1.4) rotate(270deg); }
-    100% { transform: scale(1.2) rotate(360deg); }
+    0% {
+      transform: scale(1.2) rotate(0deg);
+    }
+    25% {
+      transform: scale(1.4) rotate(90deg);
+    }
+    50% {
+      transform: scale(1.2) rotate(180deg);
+    }
+    75% {
+      transform: scale(1.4) rotate(270deg);
+    }
+    100% {
+      transform: scale(1.2) rotate(360deg);
+    }
   }
   @keyframes svg-glitch {
-    0%, 100% { filter: invert(0); }
-    10%       { filter: invert(1); }
-    20%       { filter: invert(0); }
-    30%       { filter: invert(1); }
-    40%       { filter: invert(0); }
+    0%,
+    100% {
+      filter: invert(0);
+    }
+    10% {
+      filter: invert(1);
+    }
+    20% {
+      filter: invert(0);
+    }
+    30% {
+      filter: invert(1);
+    }
+    40% {
+      filter: invert(0);
+    }
   }
   @keyframes noise-move {
-    0%   { transform: translate(0, 0); }
-    25%  { transform: translate(-1px, 1px); }
-    50%  { transform: translate(1px, -1px); }
-    75%  { transform: translate(-1px, -1px); }
-    100% { transform: translate(0, 0); }
+    0% {
+      transform: translate(0, 0);
+    }
+    25% {
+      transform: translate(-1px, 1px);
+    }
+    50% {
+      transform: translate(1px, -1px);
+    }
+    75% {
+      transform: translate(-1px, -1px);
+    }
+    100% {
+      transform: translate(0, 0);
+    }
   }
 </style>
