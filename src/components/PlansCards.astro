@@ -8,6 +8,7 @@ interface Props {
   buttonText?:  string;
   features?:    string[];
   backSubtitle?: string;
+  message?: string;
 }
 
 const {
@@ -19,11 +20,14 @@ const {
   buttonText  = "Add to cart",
   features    = [],
   backSubtitle = "",
+  message        = "",
 } = Astro.props;
 
 const posClass  = `pos-${position}`;
 const goldClass = golden ? "golden" : "";
 const patternId = `bp-${position}-${golden}`;
+
+const whatsappMessage = `https://wa.me/573505484336?text=${encodeURIComponent(message)}`;
 ---
 
 <div class={`card ${posClass} ${goldClass}`}>
@@ -71,7 +75,7 @@ const patternId = `bp-${position}-${golden}`;
           <li>{feature}</li>
         ))}
       </ul>
-      <div class="back-price-badge">{price}</div>
+      <a href={whatsappMessage} target="_blank" class="back-price-badge">CONTACTAR</a>
     </div>
 
   </div>

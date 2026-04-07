@@ -1,5 +1,9 @@
 ---
+const message = encodeURIComponent(
+  "Hola Carlitos, estoy interesado en trabajar contigo!"
+);
 
+const whatsappLink = `https://wa.me/573505484336?text=${message}`;
 ---
 
 <div class="redes">
@@ -29,9 +33,11 @@
 
   <div class="social-icons">
 
-    <a>350 548 4336</a>
+    <p>CONTACTAME</p>
     <div class="icon">
-      <img src="../../whatsapp.svg" alt="whatsapp" />
+      <a href={whatsappLink}>
+        <img src="../../whatsapp.svg" alt="whatsapp" />
+      </a>
     </div>
   </div>
 </div>
